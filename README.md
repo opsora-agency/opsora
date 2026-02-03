@@ -1,46 +1,28 @@
-# Startup - Free Next.js Startup Website Template
+# Opsora Agency
 
- - [Demo](https://themewagon.github.io/startup-nextjs/)
+**Digital Excellence Engineered for Growth**
 
-#### Download
- - [Download from ThemeWagon](https://themewagon.com/themes/startup-nextjs/)
- 
+## 🚀 About
+Opsora Agency specializes in creating high-performance digital solutions that drive business growth. We combine cutting-edge technology with strategic insights to deliver scalable, efficient, and results-oriented applications.
 
-## Getting Started
+## 💼 Services
+- **Digital Marketing** – SEO, Social Media, Performance Analytics
+- **Automation Solutions** – Workflow Optimization, CRM Integration
+- **Web Development** – Next.js, React, Scalable Applications
 
-1. Clone Repository
+## 🔗 Website
+[https://opsora-tgeo.vercel.app](https://opsora-tgeo.vercel.app)
 
-```
-git clone https://github.com/themewagon/startup-nextjs.git
-```
+## 📧 Contact
+**Email:** contact@opsora.com  
+**Business:** hello@opsora.com
 
-2. Install Dependencies
+## 🌐 Social
+- **Instagram:** [opsora-agency](https://instagram.com/opsora-agency)
+- **Twitter:** [@OpsoraAgency](https://twitter.com/OpsoraAgency)
+- **LinkedIn:** [Opsora Agency](https://linkedin.com/company/opsora)
+- **GitHub:** [opsora-agency](https://github.com/opsora-agency)
 
-```
-npm i
-```
+---
 
-3. Run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-## Author
-
-Design and code are completely written by TailGrids and UIdeck design and development team.  
-
-
-## License
-
- - Design and Code is Copyright &copy; [UIdeck](https://uideck.com/)
- - Licensed under [MIT]
- - Distributed by [ThemeWagon](https://themewagon.com)
-
-
+© 2024 Opsora Agency. All rights reserved.
