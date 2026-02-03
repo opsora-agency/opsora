@@ -15,7 +15,7 @@ const Hero = () => {
                 data-wow-delay=".2s"
               >
                 <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
-                  Scalable, Reliable, and Future-Ready Digital Solutions Engineered for Sustainable Growth
+                  Scalable, Reliable, Future-Ready Digital Solutions for Sustainable Growth
                 </h1>
                 <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
                   Opsora Agency is your comprehensive digital growth partner delivering end-to-end marketing automation, 
@@ -24,7 +24,7 @@ const Hero = () => {
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
                     target="_blank"
-                    href="https://github.com/themewagon/startup-nextjs"
+                    href="https://wa.me/918401765505"
                     className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                   >
                     Contact Now
@@ -32,7 +32,7 @@ const Hero = () => {
 
                   <Link
                     target="_blank"
-                    href="https://github.com/themewagon/startup-nextjs"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSe3-QdwOYiKoQMAIRIL0oQ2jAE7sxNmI-tdTkjr60Y1AiDoAA/viewform?usp=publish-editor"
                     className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5">
                     Book Live Demo
                   </Link>
