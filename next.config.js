@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 1. IGNORE ERRORS (The fix for your ESLint/TypeScript issues)
+  // 1. IGNORE ERRORS (Allows the build to finish despite punctuation/linting issues)
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -21,10 +21,10 @@ const nextConfig = {
     ],
   },
 
-  // 3. OTHER SETTINGS
+  // 3. HOSTING SETTINGS (Optimized for Hostinger Managed Node.js)
+  // Removed distDir: 'dist' because Hostinger looks for the default '.next' folder
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: 'dist',
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
   assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH ? `${process.env.NEXT_PUBLIC_BASE_PATH}/` : '',
 };
