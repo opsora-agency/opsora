@@ -6,6 +6,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { Inter } from "next/font/google";
 import "node_modules/react-modal-video/css/modal-video.css";
 import "../styles/index.css";
+import ChatBot from "@/components/ChatBot/ChatBot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <ScrollToTop />
+          <ChatBot />
         </Providers>
       </body>
     </html>
@@ -35,3 +37,5 @@ export default function RootLayout({
 }
 
 import { Providers } from "./providers";
+
+

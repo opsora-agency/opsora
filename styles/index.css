@@ -31,3 +31,313 @@
     @apply opacity-100;
   }
 }
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 40s linear infinite;
+  width: max-content;
+}
+
+/* Pause animation on hover */
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.5s);
+}
+
+/* Wave Animation */
+@keyframes wave {
+  0% {
+    stroke-dasharray: 0 1000;
+  }
+  100% {
+    stroke-dasharray: 1000 0;
+  }
+}
+
+.animate-wave {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: wave 20s linear infinite;
+}
+
+/* Custom animation delay for cards */
+[class*="group"]:nth-child(1) .animate-float {
+  animation-delay: 0s;
+}
+[class*="group"]:nth-child(2) .animate-float {
+  animation-delay: 0.2s;
+}
+[class*="group"]:nth-child(3) .animate-float {
+  animation-delay: 0.4s;
+}
+[class*="group"]:nth-child(4) .animate-float {
+  animation-delay: 0.6s;
+}
+[class*="group"]:nth-child(5) .animate-float {
+  animation-delay: 0.8s;
+}
+[class*="group"]:nth-child(6) .animate-float {
+  animation-delay: 1s;
+}
+
+
+
+
+
+/* Dual direction infinite scroll animations */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%); /* Moves 1/3 of total width for seamless loop */
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-33.33%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 35s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 35s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+/* Pause on hover */
+.animate-scroll-left:hover,
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
+
+/* Adjust speed by changing duration:
+   15s = faster
+   25s = slower
+   20s = medium (current)
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Custom spacing utilities - Add to your global CSS file */
+
+/* Reduce default section padding */
+.compact-section {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+@media (min-width: 768px) {
+  .compact-section {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .compact-section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+/* Ultra compact section */
+.tight-section {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .tight-section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* Section with more top space */
+.section-top-space {
+  padding-top: 3rem !important;
+  padding-bottom: 2rem !important;
+}
+
+@media (min-width: 768px) {
+  .section-top-space {
+    padding-top: 4rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}
+
+/* Section with more bottom space */
+.section-bottom-space {
+  padding-top: 2rem !important;
+  padding-bottom: 3rem !important;
+}
+
+@media (min-width: 768px) {
+  .section-bottom-space {
+    padding-top: 2.5rem !important;
+    padding-bottom: 4rem !important;
+  }
+}
+
+/* Reduce margin between elements */
+.compact-margin > * + * {
+  margin-top: 1rem !important;
+}
+
+.tight-margin > * + * {
+  margin-top: 0.5rem !important;
+}
+
+/* Remove all vertical margins */
+.no-vertical-margin {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+/* --- Home Page ONLY Spacing Fix --- */
+
+/* This will ONLY apply to sections inside the .home-wrapper */
+.home-wrapper section:not(#hero):not(footer):not(#home) {
+  padding-top: 55px !important;    /* Tight gap for Home only */
+  padding-bottom: 55px !important; 
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Desktop adjustment for Home page only */
+@media (min-width: 1024px) {
+  .home-wrapper section:not(#hero):not(footer):not(#home) {
+    padding-top: 75px !important;    
+    padding-bottom: 75px !important;
+  }
+}
+
+/* Ensure inner AI-generated divs don't double the padding on Home */
+.home-wrapper section:not(#hero) > div[class*="py-"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 30s linear infinite;
+}
+
+/* Pause animation on hover */
+.animate-scroll-left:hover {
+  animation-play-state: paused;
+}
+
+
+
+
+
+
+
+
+/* --- Mobile-Only Layout Lock --- */
+/* This only applies to screens smaller than a desktop (1024px) */
+@media (max-width: 1023px) {
+  html, 
+  body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    position: relative;
+    /* Stops horizontal 'rubber-banding' on iPhone/Android */
+    overscroll-behavior-x: none; 
+  }
+
+  /* Force-contain major layout wrappers on mobile */
+  main, 
+  .home-wrapper, 
+  .container {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+  }
+
+  /* Prevent elements from stretching the mobile viewport */
+  * {
+    max-width: 100vw;
+  }
+
+  /* Specific fix for ChatBot shadow peeking on mobile */
+  .chatbot-sidebar:not(.open) {
+    box-shadow: none !important;
+    visibility: hidden !important;
+  }
+}

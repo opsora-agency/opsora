@@ -1,21 +1,39 @@
-import { Brand } from "@/types/brand";
+// Brands/index.tsx
+"use client";
+
 import Image from "next/image";
-import brandsData from "./brandsData";
+import { Brand } from "@/types/brand";
+import { topRowBrands, bottomRowBrands } from "./brandsData";
 
 const Brands = () => {
   return (
-    <section className="pt-16">
-      <div className="container">
-        <div className="-mx-4 flex flex-wrap">
-          <div className="w-full px-4">
-            <div
-              className="wow fadeInUp flex flex-wrap items-center justify-center rounded-sm bg-gray-light px-8 py-8 dark:bg-gray-dark sm:px-10 md:px-[50px] md:py-[40px] xl:p-[50px] 2xl:px-[70px] 2xl:py-[60px]"
-              data-wow-delay=".1s"
-            >
-              {brandsData().map((brand) => (
-                <SingleBrand key={brand.id} brand={brand} />
-              ))}
-            </div>
+    <section className="py-8 md:py-10 lg:py-12">
+      <div className="container mx-auto px-4">
+        {/* Compact Title */}
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
+           Tools <span className="block text-primary sm:inline">We Trust</span>
+          </h2>
+          <p className="mx-auto max-w-xl text-gray-600 dark:text-gray-400">
+            Industry-leading technologies powering our services
+          </p>
+        </div>
+
+        {/* Top Row: Left to Right */}
+        <div className="relative mb-6 overflow-hidden py-3">
+          <div className="flex animate-scroll-left space-x-10">
+            {[...topRowBrands, ...topRowBrands, ...topRowBrands].map((brand, index) => (
+              <SingleBrand key={`top-${brand.id}-${index}`} brand={brand} />
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Row: Right to Left */}
+        <div className="relative overflow-hidden py-3">
+          <div className="flex animate-scroll-left space-x-10">
+            {[...bottomRowBrands, ...bottomRowBrands, ...bottomRowBrands].map((brand, index) => (
+              <SingleBrand key={`bottom-${brand.id}-${index}`} brand={brand} />
+            ))}
           </div>
         </div>
       </div>
@@ -26,17 +44,48 @@ const Brands = () => {
 export default Brands;
 
 const SingleBrand = ({ brand }: { brand: Brand }) => {
-  const { href, image, name } = brand;
+  const { href, name, image, imageLight } = brand;
 
   return (
-    <div className="mx-3 flex w-full max-w-[160px] items-center justify-center py-[15px] sm:mx-4 lg:max-w-[130px] xl:mx-6 xl:max-w-[150px] 2xl:mx-8 2xl:max-w-[160px]">
+    <div className="flex shrink-0 items-center justify-center">
       <a
         href={href}
         target="_blank"
-        rel="nofollow noreferrer"
-        className="relative h-10 w-full opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 dark:opacity-60 dark:hover:opacity-100"
+        rel="noopener noreferrer"
+        className="group relative flex items-center justify-center opacity-80 transition-all duration-300 hover:opacity-100 dark:opacity-70"
       >
-        <Image src={image} alt={name} fill />
+        {/* Logo Container */}
+        <div className="relative h-16 w-32 md:h-20 md:w-40">
+          {/* Light mode logo */}
+          <div className="relative h-full w-full dark:hidden">
+            <Image
+              src={image}
+              alt={`${name} logo`}
+              fill
+              className="object-contain p-4 transition-all duration-300 group-hover:scale-110"
+              sizes="(max-width: 768px) 128px, 160px"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = `https://placehold.co/160x80/000000/FFFFFF?text=${encodeURIComponent(name)}&font=inter`;
+              }}
+            />
+          </div>
+          
+          {/* Dark mode logo */}
+          <div className="relative hidden h-full w-full dark:block">
+            <Image
+              src={imageLight || image}
+              alt={`${name} logo`}
+              fill
+              className="object-contain p-4 transition-all duration-300 group-hover:scale-110"
+              sizes="(max-width: 768px) 128px, 160px"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = `https://placehold.co/160x80/FFFFFF/000000?text=${encodeURIComponent(name)}&font=inter`;
+              }}
+            />
+          </div>
+        </div>
       </a>
     </div>
   );

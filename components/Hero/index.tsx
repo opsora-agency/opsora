@@ -5,38 +5,92 @@ const Hero = () => {
     <>
       <section
         id="home"
-        className="relative z-10 overflow-hidden bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
+        className="relative z-10 overflow-hidden bg-white dark:bg-gray-950 py-24 md:py-32 lg:py-40"
       >
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4">
-              <div
-                className="wow fadeInUp mx-auto max-w-[800px] text-center"
-                data-wow-delay=".2s"
-              >
-                <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
-                  Free and Open-Source Next.js Template for Startup & SaaS
-                </h1>
-                <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
-                  Startup is free Next.js template for startups and SaaS
-                  business websites comes with all the essential pages,
-                  components, and sections you need to launch a complete
-                  business website, built-with Next 13.x and Tailwind CSS.
-                </p>
-                <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-                  <Link
-                    target="_blank"
-                    href="https://github.com/themewagon/startup-nextjs"
-                    className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
-                  >
-                    Star on GitHub
-                  </Link>
-                </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            {/* Minimal Badge */}
+            {/* Minimal Badge */}
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Trusted by 50+ Businesses
+              </span>
+            </div>
+            
+            
+            
+            {/* Headline - Clean & Professional */}
+            <h1 className="mb-6 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              <span className="block">Digital Solutions for</span>
+              <span className="block mt-2">Sustainable Growth</span>
+            </h1>
+            
+            {/* Subheadline - More Concise */}
+            <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-400 sm:text-xl">
+              End-to-end marketing automation, CRM integration, and performance-driven 
+              strategies designed to build sustainable revenue pipelines.
+            </p>
+            
+            {/* CTA Buttons - Minimal & Professional */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+              <Link
+  href="/contact"
+  target="_blank"
+  className="group inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 px-8 py-4 text-base font-medium text-white transition-colors duration-200"
+>
+  Contact Now
+  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+  </svg>
+</Link>
+
+<Link
+  href="/book-service/Book-Demo"
+  target="_blank"
+  className="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 text-base font-medium text-gray-700 dark:text-gray-300 transition-colors duration-200"
+>
+  Book Live Demo
+</Link>
+              <Link
+                  href="https://wa.me/918401765505?text=Hi%20Opsora%20Agency%2C%20I'm%20interested%20in%20your%20services.%20Can%20you%20please%20share%20more%20details%3F"
+                  className="flex h-10 w-10 items-center justify-center text-green-600 hover:text-green-700 dark:text-green-500 dark:hover:text-green-400"
+                  aria-label="Contact on WhatsApp"
+                >
+                  <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.897 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411" />
+                  </svg>
+                </Link>
+            </div>
+            
+            {/* Trust Indicators - Minimal */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span>Easy Installation</span>
+              </div>
+              <div className="hidden sm:block h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span>Free Demo trial</span>
+              </div>
+              <div className="hidden sm:block h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span>24/7 support</span>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute right-0 top-0 z-[-1] opacity-30 lg:opacity-100">
+        
+        {/* Background Elements from original code with animations */}
+        <div className="absolute right-0 top-0 z-[-1] opacity-30 lg:opacity-100 animate-float">
           <svg
             width="450"
             height="556"
@@ -174,7 +228,7 @@ const Hero = () => {
             </defs>
           </svg>
         </div>
-        <div className="absolute bottom-0 left-0 z-[-1] opacity-30 lg:opacity-100">
+        <div className="absolute bottom-0 left-0 z-[-1] opacity-30 lg:opacity-100 animate-float-delayed">
           <svg
             width="364"
             height="201"
@@ -278,6 +332,23 @@ const Hero = () => {
           </svg>
         </div>
       </section>
+
+      {/*<style jsx>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+          animation: float 6s ease-in-out 1s infinite;
+        }
+      `}</style>*/}
     </>
   );
 };

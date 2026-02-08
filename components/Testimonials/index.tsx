@@ -1,181 +1,175 @@
+"use client";
+
 import { getImagePath } from "@/lib/utils";
 import { Testimonial } from "@/types/testimonial";
 import SectionTitle from "../Common/SectionTitle";
 import SingleTestimonial from "./SingleTestimonial";
+import { useEffect, useState } from "react";
 
 const getTestimonialData = (): Testimonial[] => [
   {
     id: 1,
-    name: "Musharof Chy",
-    designation: "Founder @TailGrids",
-    content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
-    image: getImagePath("/images/testimonials/auth-01.png"),
+    name: "Manish Patel",
+    designation: "From Anand, Gujarat",
+    content: "Their marketing strategy completely changed our lead flow. In just one month, we saw a 200% jump in genuine enquiries from local clients.",
+    image: getImagePath("/images/testimonials/profile.png"),
     star: 5,
   },
   {
     id: 2,
-    name: "Devid Weilium",
-    designation: "Founder @UIdeck",
-    content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
-    image: getImagePath("/images/testimonials/auth-02.png"),
+    name: "Hiren R. Parmar",
+    designation: "From Borsad, Gujarat",
+    content: "The AI partnership was a game-changer for us. They don't just provide technology; they actually understand how to automate a business for real growth.",
+    image: getImagePath("/images/testimonials/profile.png"),
     star: 5,
   },
   {
     id: 3,
-    name: "Lethium Frenci",
-    designation: "Founder @Lineicons",
-    content:
-      "Our members are so impressed. It's intuitive. It's clean. It's distraction free. If you're building a community.",
-    image: getImagePath("/images/testimonials/auth-03.png"),
+    name: "Chirag Solanki",
+    designation: "From Borsad, Gujarat",
+    content: "The way they handle digital branding is top-notch. Our visibility across Gujarat has improved, and our customer engagement scores have gone up by 45%.",
+    image: getImagePath("/images/testimonials/profile.png"),
+    star: 5,
+  },
+  {
+    id: 4,
+    name: "Pratik Gohil",
+    designation: "From Vadodara, Gujarat",
+    content: "Our team's productivity doubled after they set up the AI agents for follow-ups. Now, no lead is missed, even after office hours. Highly recommended!",
+    image: getImagePath("/images/testimonials/profile.png"),
+    star: 5,
+  },
+  {
+    id: 5,
+    name: "Kirtan M.",
+    designation: "From Borsad, Gujarat",
+    content: "Truly professional team that understands the local market. Their campaign approach saved us hours of manual outreach and delivered a very high ROI.",
+    image: getImagePath("/images/testimonials/profile.png"),
+    star: 5,
+  },
+  {
+    id: 6,
+    name: "Amit Yadav",
+    designation: "From Khambhat, Gujarat",
+    content: "They redesigned our platform with high-performance code and precision design. Our user engagement tripled, and the seamless interface transformed how we convert digital traffic into loyal customers.",
+    image: getImagePath("/images/testimonials/profile.png"),
     star: 5,
   },
 ];
 
 const Testimonials = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const testimonials = getTestimonialData();
+  
+  // Calculate total slides (3 testimonials per slide)
+  const totalSlides = Math.ceil(testimonials.length / 3);
+
+  // Auto slide every 5 seconds
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, totalSlides]);
+
+  const handleDotClick = (index: number) => {
+    setCurrentIndex(index);
+    setIsAutoPlaying(false);
+    
+    // Resume auto-play after manual interaction
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  // Get visible testimonials for current slide
+  const visibleTestimonials = testimonials.slice(currentIndex * 3, currentIndex * 3 + 3);
+
   return (
-    <section className="relative z-10 bg-gray-light py-16 dark:bg-bg-color-dark md:py-20 lg:py-28">
-      <div className="container">
+    <section className="relative z-10 bg-white py-16 dark:bg-gray-950 md:py-20 lg:py-28">
+      <div className="container mx-auto px-4">
         <SectionTitle
-          title="What Our Users Says"
-          paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+          title="What Our Clients Say"
+          paragraph="Real results from businesses that transformed their operations with our AI-powered solutions."
           center
         />
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {getTestimonialData().map((testimonial) => (
-            <SingleTestimonial key={testimonial.id} testimonial={testimonial} />
+        {/* Testimonials Grid */}
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {visibleTestimonials.map((testimonial) => (
+            <div key={testimonial.id} className="flex">
+              <SingleTestimonial testimonial={testimonial} />
+            </div>
           ))}
         </div>
+
+        {/* Navigation Dots - Fixed calculation */}
+        <div className="mt-10 flex justify-center space-x-2">
+          {Array.from({ length: totalSlides }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentIndex === index 
+                  ? "w-8 bg-blue-600 dark:bg-blue-500" 
+                  : "w-2 bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
+              }`}
+              aria-label={`Go to testimonial group ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Stats Banner */}
+        <div className="mt-16 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white dark:from-blue-700 dark:to-blue-800 sm:p-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold sm:text-3xl">98%</div>
+              <div className="text-sm opacity-90">Client Satisfaction</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold sm:text-3xl">250+</div>
+              <div className="text-sm opacity-90">Businesses Transformed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold sm:text-3xl">4.9/5</div>
+              <div className="text-sm opacity-90">Average Rating</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold sm:text-3xl">24h</div>
+              <div className="text-sm opacity-90">Avg. Implementation</div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-16 text-center">
+          <div className="inline-flex flex-col items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900 sm:flex-row sm:gap-6 sm:p-8">
+            <div className="text-center sm:text-left">
+              <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                Ready to join our satisfied clients?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                See what our AI solutions can do for your business.
+              </p>
+            </div>
+            <a
+              href="/contact"
+              className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+            >
+              Start Free Trial
+            </a>
+          </div>
+        </div>
       </div>
-      <div className="absolute right-0 top-5 z-[-1]">
-        <svg
-          width="238"
-          height="531"
-          viewBox="0 0 238 531"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            opacity="0.3"
-            x="422.819"
-            y="-70.8145"
-            width="196"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 422.819 -70.8145)"
-            fill="url(#paint0_linear_83:2)"
-          />
-          <rect
-            opacity="0.3"
-            x="426.568"
-            y="144.886"
-            width="59.7544"
-            height="541.607"
-            rx="2"
-            transform="rotate(51.2997 426.568 144.886)"
-            fill="url(#paint1_linear_83:2)"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_83:2"
-              x1="517.152"
-              y1="-251.373"
-              x2="517.152"
-              y2="459.865"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_83:2"
-              x1="455.327"
-              y1="-35.673"
-              x2="455.327"
-              y2="675.565"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" />
-              <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-      <div className="absolute bottom-5 left-0 z-[-1]">
-        <svg
-          width="279"
-          height="106"
-          viewBox="0 0 279 106"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g opacity="0.5">
-            <path
-              d="M-57 12L50.0728 74.8548C55.5501 79.0219 70.8513 85.7589 88.2373 79.3692C109.97 71.3821 116.861 60.9642 156.615 63.7423C178.778 65.291 195.31 69.2985 205.911 62.3533C216.513 55.408 224.994 47.7682 243.016 49.1572C255.835 50.1453 265.278 50.8936 278 45.3373"
-              stroke="url(#paint0_linear_72:302)"
-            />
-            <path
-              d="M-57 1L50.0728 63.8548C55.5501 68.0219 70.8513 74.7589 88.2373 68.3692C109.97 60.3821 116.861 49.9642 156.615 52.7423C178.778 54.291 195.31 58.2985 205.911 51.3533C216.513 44.408 224.994 36.7682 243.016 38.1572C255.835 39.1453 265.278 39.8936 278 34.3373"
-              stroke="url(#paint1_linear_72:302)"
-            />
-            <path
-              d="M-57 23L50.0728 85.8548C55.5501 90.0219 70.8513 96.7589 88.2373 90.3692C109.97 82.3821 116.861 71.9642 156.615 74.7423C178.778 76.291 195.31 80.2985 205.911 73.3533C216.513 66.408 224.994 58.7682 243.016 60.1572C255.835 61.1453 265.278 61.8936 278 56.3373"
-              stroke="url(#paint2_linear_72:302)"
-            />
-            <path
-              d="M-57 35L50.0728 97.8548C55.5501 102.022 70.8513 108.759 88.2373 102.369C109.97 94.3821 116.861 83.9642 156.615 86.7423C178.778 88.291 195.31 92.2985 205.911 85.3533C216.513 78.408 224.994 70.7682 243.016 72.1572C255.835 73.1453 265.278 73.8936 278 68.3373"
-              stroke="url(#paint3_linear_72:302)"
-            />
-          </g>
-          <defs>
-            <linearGradient
-              id="paint0_linear_72:302"
-              x1="256.267"
-              y1="53.6717"
-              x2="-40.8688"
-              y2="8.15715"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_72:302"
-              x1="256.267"
-              y1="42.6717"
-              x2="-40.8688"
-              y2="-2.84285"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint2_linear_72:302"
-              x1="256.267"
-              y1="64.6717"
-              x2="-40.8688"
-              y2="19.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-            <linearGradient
-              id="paint3_linear_72:302"
-              x1="256.267"
-              y1="76.6717"
-              x2="-40.8688"
-              y2="31.1572"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#4A6CF7" stopOpacity="0" />
-              <stop offset="1" stopColor="#4A6CF7" />
-            </linearGradient>
-          </defs>
-        </svg>
+
+      {/* Background Elements */}
+      <div className="absolute bottom-0 left-0 right-0 top-0 -z-10 overflow-hidden">
+        <div className="absolute -right-20 top-20 h-80 w-80 rounded-full bg-blue-500/5 blur-3xl"></div>
+        <div className="absolute -left-20 bottom-20 h-80 w-80 rounded-full bg-blue-500/5 blur-3xl"></div>
       </div>
     </section>
   );

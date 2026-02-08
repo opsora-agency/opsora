@@ -31,3 +31,34 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Add these to your .gitignore file:
+
+# Environment files (CRITICAL - hides passwords)
+.env
+.env.local
+.env*.local
+.env.production
+.env.development
+.env.test
+.env.example
+.env.staging
+
+# Keep your actual .env file but ignore all variations
+.env*
+
+# Sensitive config files
+config.local.json
+secrets.json
+credentials.json
+firebase-key.json
+service-account.json
+
+# IDE settings that might contain secrets
+.vscode/settings.json
+.idea/workspace.xml
+
+# System files that might have cached secrets
+.DS_Store
+*.tmp
+*.temp

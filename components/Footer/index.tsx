@@ -2,8 +2,48 @@
 import { getImagePath } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Footer = () => {
+  const phoneNumber = "+91 8401765505";
+  const email = "opsoraagency@gmail.com";
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Footer/index.tsx updates
+const handleNewsletterSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!newsletterEmail.trim() || !newsletterEmail.includes("@")) return;
+
+  setIsSubmitting(true);
+  try {
+    const response = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        email: newsletterEmail,
+        name: "Footer Subscriber" // Default name since footer has no name input
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok && data.success) {
+      setIsSubmitted(true);
+      setNewsletterEmail("");
+      setTimeout(() => setIsSubmitted(false), 5000);
+    }
+  } catch (error) {
+    console.error("Footer Subscription error:", error);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
+
+
   return (
     <>
       <footer
@@ -12,6 +52,7 @@ const Footer = () => {
       >
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
+            {/* Company Info Section */}
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
               <div className="mb-12 max-w-[360px] lg:mb-16">
                 <Link href="/" className="mb-8 inline-block">
@@ -19,403 +60,279 @@ const Footer = () => {
                     src={getImagePath("/images/logo/logo-2.svg")}
                     alt="logo"
                     className="w-full dark:hidden"
-                    width={140}
-                    height={30}
+                    width={100}
+                    height={10}
                   />
                   <Image
                     src={getImagePath("/images/logo/logo.svg")}
                     alt="logo"
                     className="hidden w-full dark:block"
-                    width={140}
-                    height={30}
+                    width={100}
+                    height={10}
                   />
                 </Link>
-                <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer lobortis.
+                <p className="mb-6 text-base leading-relaxed text-body-color dark:text-body-color-dark">
+                  Transforming ideas into exceptional digital experiences. We build solutions that drive growth and innovation.
                 </p>
-                <div className="flex items-center">
-                  <a
-                    href="#"
-                    aria-label="social-link"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <svg
-                      width="9"
-                      height="18"
-                      viewBox="0 0 9 18"
-                      className="fill-current"
+                
+                {/* Contact Info */}
+                <div className="mb-8 space-y-4">
+                  <div className="group flex items-center space-x-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
+                      <svg className="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <a 
+                      href={`tel:${phoneNumber.replace(/\s+/g, '')}`}
+                      className="text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary transition-colors duration-300"
                     >
-                      <path d="M8.13643 7H6.78036H6.29605V6.43548V4.68548V4.12097H6.78036H7.79741C8.06378 4.12097 8.28172 3.89516 8.28172 3.55645V0.564516C8.28172 0.254032 8.088 0 7.79741 0H6.02968C4.11665 0 2.78479 1.58064 2.78479 3.92339V6.37903V6.94355H2.30048H0.65382C0.314802 6.94355 0 7.25403 0 7.70564V9.7379C0 10.1331 0.266371 10.5 0.65382 10.5H2.25205H2.73636V11.0645V16.7379C2.73636 17.1331 3.00273 17.5 3.39018 17.5H5.66644C5.81174 17.5 5.93281 17.4153 6.02968 17.3024C6.12654 17.1895 6.19919 16.9919 6.19919 16.8226V11.0927V10.5282H6.70771H7.79741C8.11222 10.5282 8.35437 10.3024 8.4028 9.96371V9.93548V9.90726L8.74182 7.95968C8.76604 7.7621 8.74182 7.53629 8.59653 7.31048C8.54809 7.16935 8.33016 7.02823 8.13643 7Z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="social-link"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <svg
-                      width="19"
-                      height="14"
-                      viewBox="0 0 19 14"
-                      className="fill-current"
+                      {phoneNumber}
+                    </a>
+                  </div>
+
+                  <div className="group flex items-center space-x-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
+                      <svg className="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <a 
+                      href={`mailto:${email}`}
+                      className="text-base font-medium text-black hover:text-primary dark:text-white dark:hover:text-primary transition-colors duration-300"
                     >
-                      <path d="M16.3024 2.26027L17.375 1.0274C17.6855 0.693493 17.7702 0.436644 17.7984 0.308219C16.9516 0.770548 16.1613 0.924658 15.6532 0.924658H15.4556L15.3427 0.821918C14.6653 0.282534 13.8185 0 12.9153 0C10.9395 0 9.3871 1.48973 9.3871 3.21062C9.3871 3.31336 9.3871 3.46747 9.41532 3.57021L9.5 4.0839L8.90726 4.05822C5.29435 3.95548 2.33065 1.13014 1.85081 0.642123C1.06048 1.92637 1.5121 3.15925 1.99194 3.92979L2.95161 5.36815L1.42742 4.5976C1.45565 5.67637 1.90726 6.52397 2.78226 7.14041L3.54435 7.65411L2.78226 7.93665C3.2621 9.24658 4.33468 9.78596 5.125 9.99144L6.16935 10.2483L5.18145 10.8647C3.60081 11.8921 1.625 11.8151 0.75 11.738C2.52823 12.8682 4.64516 13.125 6.1129 13.125C7.21371 13.125 8.03226 13.0223 8.22984 12.9452C16.1331 11.25 16.5 4.82877 16.5 3.54452V3.36473L16.6694 3.26199C17.629 2.44007 18.0242 2.00342 18.25 1.74658C18.1653 1.77226 18.0524 1.82363 17.9395 1.84932L16.3024 2.26027Z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="social-link"
-                    className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <svg
-                      width="18"
-                      height="14"
-                      viewBox="0 0 18 14"
-                      className="fill-current"
+                      {email}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Social Links - Updated icons */}
+                <div className="flex items-center space-x-5">
+                  {[
+                    { icon: FacebookIcon, label: "Facebook", href: "#" },
+                    { icon: TwitterIcon, label: "Twitter", href: "#" },
+                    { icon: InstagramIcon, label: "Instagram", href: "#" },
+                    { icon: LinkedInIcon, label: "LinkedIn", href: "#" },
+                  ].map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      aria-label={social.label}
+                      className="text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transform hover:-translate-y-1 transition-all duration-300"
+                      onClick={(e) => e.preventDefault()}
                     >
-                      <path d="M17.5058 2.07119C17.3068 1.2488 16.7099 0.609173 15.9423 0.395963C14.5778 7.26191e-08 9.0627 0 9.0627 0C9.0627 0 3.54766 7.26191e-08 2.18311 0.395963C1.41555 0.609173 0.818561 1.2488 0.619565 2.07119C0.25 3.56366 0.25 6.60953 0.25 6.60953C0.25 6.60953 0.25 9.68585 0.619565 11.1479C0.818561 11.9703 1.41555 12.6099 2.18311 12.8231C3.54766 13.2191 9.0627 13.2191 9.0627 13.2191C9.0627 13.2191 14.5778 13.2191 15.9423 12.8231C16.7099 12.6099 17.3068 11.9703 17.5058 11.1479C17.8754 9.68585 17.8754 6.60953 17.8754 6.60953C17.8754 6.60953 17.8754 3.56366 17.5058 2.07119ZM7.30016 9.44218V3.77687L11.8771 6.60953L7.30016 9.44218Z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="#"
-                    aria-label="social-link"
-                    className="text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <svg
-                      width="17"
-                      height="16"
-                      viewBox="0 0 17 16"
-                      className="fill-current"
-                    >
-                      <path d="M15.2196 0H1.99991C1.37516 0 0.875366 0.497491 0.875366 1.11936V14.3029C0.875366 14.8999 1.37516 15.4222 1.99991 15.4222H15.1696C15.7943 15.4222 16.2941 14.9247 16.2941 14.3029V1.09448C16.3441 0.497491 15.8443 0 15.2196 0ZM5.44852 13.1089H3.17444V5.7709H5.44852V13.1089ZM4.29899 4.75104C3.54929 4.75104 2.97452 4.15405 2.97452 3.43269C2.97452 2.71133 3.57428 2.11434 4.29899 2.11434C5.02369 2.11434 5.62345 2.71133 5.62345 3.43269C5.62345 4.15405 5.07367 4.75104 4.29899 4.75104ZM14.07 13.1089H11.796V9.55183C11.796 8.7061 11.771 7.58674 10.5964 7.58674C9.39693 7.58674 9.222 8.53198 9.222 9.47721V13.1089H6.94792V5.7709H9.17202V6.79076H9.19701C9.52188 6.19377 10.2466 5.59678 11.3711 5.59678C13.6952 5.59678 14.12 7.08925 14.12 9.12897V13.1089H14.07Z" />
-                    </svg>
-                  </a>
+                      <social.icon />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Useful Links
-                </h2>
-                <ul>
-                  <li>
-                    <a
-                      href="/blogs"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/pricing"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Pricing
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/about"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      About
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            {/* Quick Links */}
+           <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
+  <div className="mb-12 lg:mb-16">
 
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Terms
-                </h2>
-                <ul>
-                  <li>
-                    <a
-                      href="#"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      TOS
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Refund Policy
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+    
+    <h2 className="mb-6 text-lg font-semibold text-black dark:text-white">
+      Quick Links
+    </h2>
+    <ul className="space-y-3">
+      {[
+        { label: "All Services", href: "/services" },
+        { label: "About Us", href: "/about" },
+        { label: "Book Service", href: "/book-service" },
+        { label: "Contact", href: "/contact/Contact-&-Support/" },
+        { label: "Support", href: "/contact/Contact-&-Support/support" },
+      ].map((link) => (
+        <li key={link.label}>
+          <Link
+            href={link.href}
+            className="text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors duration-300"
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
 
+    
+</div>
+
+
+            {/* Services */}
+{/* Services */}
+<div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
+  <div className="mb-12 lg:mb-16">
+
+     <div className="mb-12 lg:mb-16">
+    <h2 className="mb-6 text-lg font-semibold text-black dark:text-white">
+      Legal
+    </h2>
+    <ul className="space-y-3">
+      {[
+        { label: "Service Agreement", href: "/Consent/ServiceAgreement" },
+        { label: "NDA Agreement", href: "/Consent/NdaAgreement" },
+        { label: "Payment Terms", href: "/Consent/PaymentTerms" },
+        { label: "Refund & Cancellation Policy", href: "/Consent/RefundAndCancellationPolicy" },
+        { label: "Change Request Policy", href: "/Consent/ChangeRequestPolicy" },
+      ].map((service) => (
+        <li key={service.label}>
+          <a
+            href={service.href}
+            className="text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors duration-300"
+           
+          >
+            {service.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  </div>
+  
+</div>
+
+            {/* Newsletter - Now Functional */}
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-3/12">
               <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Support & Help
+                <h2 className="mb-6 text-lg font-semibold text-black dark:text-white">
+                  Stay Updated
                 </h2>
-                <ul>
-                  <li>
-                    <a
-                      href="/contact"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
+                <p className="mb-4 text-sm text-body-color dark:text-body-color-dark">
+                  Subscribe to our newsletter for the latest updates.
+                </p>
+                <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+                  <div className="relative">
+                    <input
+                      type="email"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      placeholder="Your email"
+                      className="w-full rounded-lg border border-gray-300 bg-white py-3 px-4 pr-12 text-sm focus:border-primary focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                      required
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !newsletterEmail.trim()}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-primary p-2 hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Open Support Ticket
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      Terms of Use
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/about"
-                      className="mb-4 inline-block text-base text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
-                    >
-                      About
-                    </a>
-                  </li>
-                </ul>
+                      {isSubmitting ? (
+                        <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                      ) : (
+                        <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  
+                  {isSubmitted && (
+                    <div className="rounded-lg bg-green-100 px-4 py-2 dark:bg-green-900/20">
+                      <p className="text-sm text-green-600 dark:text-green-400 flex items-center">
+                        <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Thank you! You're now subscribed.
+                      </p>
+                    </div>
+                  )}
+                </form>
+                
+                {/* Removed Business Hours section */}
               </div>
             </div>
           </div>
 
+          {/* Divider */}
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
+          
+          {/* Bottom Bar */}
           <div className="py-8">
-            <p className="text-center text-base text-body-color dark:text-white">
-              Template by UIdeck and{" "}
-              <a href="https://nextjstemplates.com" rel="nofollow noopener">
-                Next.js Templates
-              </a>
-              . Distributed by{" "}
-              <a
-                target="_blank"
-                href="https://themewagon.com/"
-                rel="nofollow noopener noreferrer"
-              >
-                ThemeWagon
-              </a>
-            </p>
+            <div className="flex flex-col items-center justify-between md:flex-row">
+              <p className="mb-4 text-center text-sm text-body-color dark:text-white md:mb-0">
+                © {new Date().getFullYear()} Opsora Agency. All rights reserved.
+              </p>
+              <div className="flex items-center space-x-6">
+                <a
+                  href="/Consent/PrivacyPolicy"
+                  className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors"
+                  
+                >
+                  Privacy Policy
+                </a>
+                <a
+                  href="/Consent/TermsOfService"
+                  className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors"
+                  
+                >
+                  Terms of Service
+                </a>
+                <a
+                  href="/Consent/TermsAndConditions"
+                  className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors"
+                  
+                >
+                  Terms and Conditions
+                </a>
+                <a
+                  href="/Consent/CookiePolicy"
+                  className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors"
+                >
+                  Cookie Policy
+                </a>
+                <a
+                  href="/Consent/Disclaimer"
+                  className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors"
+                >
+                  Disclaimer
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="absolute right-0 top-14 z-[-1]">
-          <svg
-            width="55"
-            height="99"
-            viewBox="0 0 55 99"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle opacity="0.8" cx="49.5" cy="49.5" r="49.5" fill="#959CB1" />
-            <mask
-              id="mask0_94:899"
-              style={{ maskType: "alpha" }}
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width="99"
-              height="99"
-            >
-              <circle
-                opacity="0.8"
-                cx="49.5"
-                cy="49.5"
-                r="49.5"
-                fill="#4A6CF7"
-              />
-            </mask>
-            <g mask="url(#mask0_94:899)">
-              <circle
-                opacity="0.8"
-                cx="49.5"
-                cy="49.5"
-                r="49.5"
-                fill="url(#paint0_radial_94:899)"
-              />
-              <g opacity="0.8" filter="url(#filter0_f_94:899)">
-                <circle cx="53.8676" cy="26.2061" r="20.3824" fill="white" />
-              </g>
-            </g>
-            <defs>
-              <filter
-                id="filter0_f_94:899"
-                x="12.4852"
-                y="-15.1763"
-                width="82.7646"
-                height="82.7646"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                  result="shape"
-                />
-                <feGaussianBlur
-                  stdDeviation="10.5"
-                  result="effect1_foregroundBlur_94:899"
-                />
-              </filter>
-              <radialGradient
-                id="paint0_radial_94:899"
-                cx="0"
-                cy="0"
-                r="1"
-                gradientUnits="userSpaceOnUse"
-                gradientTransform="translate(49.5 49.5) rotate(90) scale(53.1397)"
-              >
-                <stop stopOpacity="0.47" />
-                <stop offset="1" stopOpacity="0" />
-              </radialGradient>
-            </defs>
+
+        {/* Decorative SVG Elements */}
+        <div className="absolute right-0 top-14 z-[-1] opacity-50">
+          <svg width="55" height="99" viewBox="0 0 55 99" fill="none">
+            <circle cx="49.5" cy="49.5" r="49.5" fill="url(#footer-gradient)" />
           </svg>
         </div>
-        <div className="absolute bottom-24 left-0 z-[-1]">
-          <svg
-            width="79"
-            height="94"
-            viewBox="0 0 79 94"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              opacity="0.3"
-              x="-41"
-              y="26.9426"
-              width="66.6675"
-              height="66.6675"
-              transform="rotate(-22.9007 -41 26.9426)"
-              fill="url(#paint0_linear_94:889)"
-            />
-            <rect
-              x="-41"
-              y="26.9426"
-              width="66.6675"
-              height="66.6675"
-              transform="rotate(-22.9007 -41 26.9426)"
-              stroke="url(#paint1_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <path
-              opacity="0.3"
-              d="M50.5215 7.42229L20.325 1.14771L46.2077 62.3249L77.1885 68.2073L50.5215 7.42229Z"
-              fill="url(#paint2_linear_94:889)"
-            />
-            <path
-              d="M50.5215 7.42229L20.325 1.14771L46.2077 62.3249L76.7963 68.2073L50.5215 7.42229Z"
-              stroke="url(#paint3_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <path
-              opacity="0.3"
-              d="M17.9721 93.3057L-14.9695 88.2076L46.2077 62.325L77.1885 68.2074L17.9721 93.3057Z"
-              fill="url(#paint4_linear_94:889)"
-            />
-            <path
-              d="M17.972 93.3057L-14.1852 88.2076L46.2077 62.325L77.1884 68.2074L17.972 93.3057Z"
-              stroke="url(#paint5_linear_94:889)"
-              strokeWidth="0.7"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_94:889"
-                x1="-41"
-                y1="21.8445"
-                x2="36.9671"
-                y2="59.8878"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear_94:889"
-                x1="25.6675"
-                y1="95.9631"
-                x2="-42.9608"
-                y2="20.668"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-              <linearGradient
-                id="paint2_linear_94:889"
-                x1="20.325"
-                y1="-3.98039"
-                x2="90.6248"
-                y2="25.1062"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint3_linear_94:889"
-                x1="18.3642"
-                y1="-1.59742"
-                x2="113.9"
-                y2="80.6826"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-              <linearGradient
-                id="paint4_linear_94:889"
-                x1="61.1098"
-                y1="62.3249"
-                x2="-8.82468"
-                y2="58.2156"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0.62" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient
-                id="paint5_linear_94:889"
-                x1="65.4236"
-                y1="65.0701"
-                x2="24.0178"
-                y2="41.6598"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#4A6CF7" stopOpacity="0" />
-                <stop offset="1" stopColor="#4A6CF7" stopOpacity="0.51" />
-              </linearGradient>
-            </defs>
+        <div className="absolute bottom-24 left-0 z-[-1] opacity-30">
+          <svg width="79" height="94" viewBox="0 0 79 94" fill="none">
+            <rect x="-41" y="26.9426" width="66.6675" height="66.6675" fill="url(#footer-gradient-2)" />
           </svg>
         </div>
       </footer>
     </>
   );
 };
+
+// Updated Social Icons Components
+const FacebookIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
+
+const TwitterIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.213c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+  </svg>
+);
+
+const InstagramIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+  </svg>
+);
+
+const LinkedInIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+);
 
 export default Footer;
