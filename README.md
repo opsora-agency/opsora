@@ -60,4 +60,3 @@ Opsora Agency is a full-service digital growth agency specializing in data-drive
 - Hotjar / FullStory
 - HubSpot / Salesforce
 
-## 📁 Project Structure
