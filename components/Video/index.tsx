@@ -4,6 +4,7 @@ import { getImagePath } from "@/lib/utils";
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Play, Pause } from 'lucide-react';
 
 const ImageSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
