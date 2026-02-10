@@ -2,11 +2,106 @@
 
 import { getImagePath } from "@/lib/utils";
 import Image from "next/image";
-import { useState } from "react";
-import ModalVideo from "react-modal-video";
+import { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-const Video = () => {
-  const [isOpen, setOpen] = useState(false);
+const ImageSlider = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const totalSlides = 11;
+
+  // Next slide function
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  }, [totalSlides]);
+
+  // Previous slide function
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  }, [totalSlides]);
+
+  // Go to specific slide
+  const goToSlide = useCallback((index: number) => {
+    setCurrentSlide(index);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 5000);
+  }, []);
+
+  // Open modal with current slide
+  const openModal = useCallback(() => {
+    setIsModalOpen(true);
+    setIsAutoPlaying(false);
+  }, []);
+
+  // Close modal
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setTimeout(() => setIsAutoPlaying(true), 1000);
+  }, []);
+
+  // Auto slide functionality
+  useEffect(() => {
+    if (!isAutoPlaying || isModalOpen) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, isModalOpen, nextSlide]);
+
+  // Pause auto play on hover
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isModalOpen) {
+        closeModal();
+      }
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, closeModal, prevSlide, nextSlide]);
+
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.paddingRight = '0px';
+    } else {
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.paddingRight = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.paddingRight = '';
+    };
+  }, [isModalOpen]);
+
+  // Add click outside to close modal
+  const modalRef = useCallback((node: HTMLDivElement) => {
+    if (node && isModalOpen) {
+      const handleClickOutside = (e: MouseEvent) => {
+        if (node === e.target) {
+          closeModal();
+        }
+      };
+      
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isModalOpen, closeModal]);
 
   return (
     <>
@@ -15,103 +110,169 @@ const Video = () => {
           {/* Section Header */}
           <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
             <span className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-              See Us in Action
+              Our Work
             </span>
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-5xl">
-              See How We Transform
-              <span className="block text-blue-600 dark:text-blue-400">Businesses with AI</span>
+              See How We
+              <span className="block text-primary sm:inline"> Transform Businesses</span>
             </h2>
             <p className="mx-auto text-base text-body-color dark:text-gray-400 sm:text-lg">
-              Watch how our AI-powered solutions help businesses automate processes, 
-              generate more leads, and achieve sustainable growth in today's digital landscape.
+             Driving Sustainable Growth Through Innovative Digital Solutions.
             </p>
           </div>
 
-          {/* Video Container */}
+          {/* Main Slider Container */}
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4">
               <div
-                className="wow fadeInUp mx-auto max-w-[770px] overflow-hidden rounded-lg shadow-2xl transition-all duration-300 hover:shadow-3xl"
+                className="wow fadeInUp mx-auto max-w-[900px] overflow-hidden rounded-lg shadow-2xl transition-all duration-300 hover:shadow-3xl"
                 data-wow-delay=".15s"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
-                <div className="group relative aspect-[77/40] cursor-pointer items-center justify-center" onClick={() => setOpen(true)}>
-                  <Image
-                    src={getImagePath("/images/video/video.jpg")}
-                    alt="AI Automation in Action"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-                  
-                  {/* Play Button */}
-                  <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center">
-                    <button
-                      aria-label="video play button"
-                      onClick={() => setOpen(true)}
-                      className="group flex h-[70px] w-[70px] items-center justify-center rounded-full bg-white bg-opacity-90 text-primary transition-all duration-300 hover:scale-110 hover:bg-white hover:bg-opacity-100 hover:shadow-2xl"
-                    >
-                      <svg
-                        width="22"
-                        height="26"
-                        viewBox="0 0 22 26"
-                        className="fill-current transition-transform duration-300 group-hover:scale-110"
+                <div 
+                  className="group relative aspect-[16/9] overflow-hidden bg-gray-900 cursor-pointer select-none"
+                  onClick={openModal}
+                  onKeyDown={(e) => e.key === 'Enter' && openModal()}
+                  tabIndex={0}
+                  role="button"
+                  aria-label="Open image gallery in full screen"
+                >
+                  {/* Main Image Display */}
+                  <div className="relative h-full w-full">
+                    {Array.from({ length: totalSlides }).map((_, index) => (
+                      <div
+                        key={index}
+                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                          index === currentSlide ? "opacity-100" : "opacity-0"
+                        }`}
                       >
-                        <path d="M21.5 12.134C22.1667 12.5189 22.1667 13.4811 21.5 13.866L2 23.6603C1.33333 24.0452 0.5 23.564 0.5 22.7942L0.5 3.20577C0.5 2.43597 1.33333 1.95485 2 2.33974L21.5 12.134Z" />
-                      </svg>
-                    </button>
-                  </div>
-                  
-                  {/* Video Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="mb-1 text-lg font-bold">AI Automation Demo</h3>
-                        <p className="text-sm opacity-90">See real-time AI agents at work • 3:45</p>
+                        <Image
+                          src={getImagePath(`/images/portfolio/${index + 1}.png`)}
+                          alt={``}
+                          fill
+                          className="object-cover"
+                          priority={index === currentSlide}
+                          sizes="(max-width: 768px) 100vw, 900px"
+                        />
+                        
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                        
+                        {/* Image Info
+                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white sm:p-6">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="mb-1 text-lg font-bold sm:text-xl">Project #{index + 1}</h3>
+                              <p className="text-xs opacity-90 sm:text-sm">Success Story • Client Satisfaction</p>
+                            </div>
+                          </div>
+                        </div>*/}
                       </div>
-                    </div>
+                    ))}
+                  </div>
+
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevSlide();
+                    }}
+                    className="group absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/80 active:scale-110 sm:left-3 sm:h-9 sm:w-9 md:left-4 md:h-10 md:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  </button>
+                  
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextSlide();
+                    }}
+                    className="group absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/80 active:scale-110 sm:right-3 sm:h-9 sm:w-9 md:right-4 md:h-10 md:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  </button>
+
+                  {/* Slide Indicators */}
+                  <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 sm:bottom-4 sm:gap-2">
+                    {Array.from({ length: totalSlides }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goToSlide(index);
+                        }}
+                        className={`h-1.5 rounded-full transition-all duration-300 sm:h-2 focus:outline-none focus:ring-2 focus:ring-white/50 ${
+                          index === currentSlide 
+                            ? "w-6 bg-white shadow-lg" 
+                            : "w-1.5 bg-white/60 hover:bg-white/80 active:bg-white"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                        aria-current={index === currentSlide ? "true" : "false"}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Auto Play Indicator */}
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5 sm:top-4 sm:right-4">
+                    <div className={`h-1.5 w-1.5 rounded-full ${isAutoPlaying ? "bg-green-500 animate-pulse" : "bg-red-500"}`}></div>
+                    <span className="text-[10px] text-white/70 sm:text-xs">
+                      {isAutoPlaying ? "Auto" : "Paused"}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Video Stats */}
-          <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-            <div className="rounded-lg border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 md:text-3xl">500+</div>
-              <div className="mt-1 text-sm font-medium text-body-color">Hours Automated</div>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 md:text-3xl">94%</div>
-              <div className="mt-1 text-sm font-medium text-body-color">Accuracy Rate</div>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 md:text-3xl">3.2K</div>
-              <div className="mt-1 text-sm font-medium text-body-color">Leads Generated</div>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 md:text-3xl">24/7</div>
-              <div className="mt-1 text-sm font-medium text-body-color">AI Support</div>
+          {/* Thumbnail Navigation */}
+          <div className="mt-6 sm:mt-8">
+            <div className="flex justify-center overflow-x-auto pb-2 sm:pb-4">
+              <div className="flex gap-2 px-2 sm:gap-3 sm:px-4">
+                {Array.from({ length: totalSlides }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`group relative h-12 w-16 flex-shrink-0 overflow-hidden rounded-lg transition-all duration-300 active:scale-105 sm:h-14 sm:w-20 md:h-16 md:w-24 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
+                      index === currentSlide 
+                        ? "ring-1 ring-blue-500 ring-offset-1 scale-105 sm:ring-2" 
+                        : "opacity-70 active:opacity-100 active:scale-105"
+                    }`}
+                    aria-label={`View Project ${index + 1}`}
+                    aria-current={index === currentSlide ? "true" : "false"}
+                  >
+                    <Image
+                      src={getImagePath(`/images/portfolio/${index + 1}.png`)}
+                      alt={`Thumbnail for Project ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 96px"
+                    />
+                    <div className={`absolute inset-0 ${
+                      index === currentSlide ? "bg-blue-500/20" : "bg-black/30 group-active:bg-black/20"
+                    }`}></div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           
-          {/* CTA 
+          {/* CTA
           <div className="mt-10 text-center">
             <p className="mb-4 text-base text-body-color dark:text-gray-400">
-              Want to see how this works for your business?
+              Want to see more of our work or discuss your project?
             </p>
-            <button
-              onClick={() => setOpen(true)}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors duration-300 hover:bg-blue-700"
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-blue-700 active:scale-95 sm:px-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
-              Watch Full Demo
-            </button>
+              View Full Portfolio
+            </a>
           </div>*/}
         </div>
 
@@ -119,53 +280,128 @@ const Video = () => {
         <div className="absolute bottom-0 left-0 right-0 z-[-1] h-full w-full bg-[url(/images/video/shape.svg)] bg-cover bg-center bg-no-repeat"></div>
       </section>
 
-      {/* Modal Video with backdrop blur */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
-          <div className="relative w-full max-w-4xl px-4">
-            {/* Close button moved down */}
+      {/* Modal */}
+      {isModalOpen && (
+        <div 
+          ref={modalRef}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-xl transition-all duration-300"
+          onClick={closeModal}
+        >
+          {/* Modal Content Container - Centered properly */}
+          <div 
+            className="relative h-[90vh] w-full max-w-[95vw] md:max-w-[90vw] md:max-h-[85vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button - Adjusted position */}
             <button
-              onClick={() => setOpen(false)}
-              className="absolute -top-8 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm hover:bg-white/30 sm:-top-10"
+              onClick={closeModal}
+              className="absolute -top-8 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 md:-top-12 md:h-12 md:w-12 focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label="Close modal"
             >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="h-5 w-5 md:h-6 md:w-6" />
             </button>
-            {/* Video container with rounded corners */}
-            <div className="aspect-video w-full overflow-hidden rounded-xl">
-              <ModalVideo
-                channel="youtube"
-                autoplay={true}
-                start={true}
-                isOpen={isOpen}
-                videoId="L61p2uyiMSo"
-                onClose={() => setOpen(false)}
-              />
+
+            {/* Modal Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-1 top-1/2 z-50 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 sm:left-2 sm:h-10 sm:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+            </button>
+            
+            <button
+              onClick={nextSlide}
+              className="absolute right-1 top-1/2 z-50 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 sm:right-2 sm:h-10 sm:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            </button>
+
+            {/* Main Modal Content */}
+            <div className="relative h-full w-full overflow-hidden rounded-lg md:rounded-xl">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                    index === currentSlide ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <Image
+                    src={getImagePath(`/images/portfolio/${index + 1}.png`)}
+                    alt={`Full screen view of Project ${index + 1}`}
+                    fill
+                    className="object-contain"
+                    priority
+                    sizes="100vw"
+                  />
+                  
+                  {/* Image Info Overlay
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 text-white sm:p-6">
+                    <div>
+                      <h3 className="mb-1 text-lg font-bold sm:text-xl">Project #{index + 1}</h3>
+                      <p className="text-xs opacity-90 sm:text-sm">Success Story • Client Satisfaction</p>
+                    </div>
+                  </div>*/}
+                </div>
+              ))}
+            </div>
+
+            {/* Modal Slide Indicators */}
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 sm:bottom-4 sm:gap-2">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToSlide(index);
+                  }}
+                  className={`h-1.5 rounded-full transition-all duration-300 sm:h-2 focus:outline-none focus:ring-2 focus:ring-white/50 ${
+                    index === currentSlide 
+                      ? "w-6 bg-white" 
+                      : "w-1.5 bg-white/40 hover:bg-white/60 active:bg-white/80"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                  aria-current={index === currentSlide ? "true" : "false"}
+                />
+              ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal styles for react-modal-video */}
+      {/* Global Styles */}
       <style jsx global>{`
-        .modal-video-close-btn {
-          display: none !important;
+        /* Custom scrollbar for thumbnails */
+        .overflow-x-auto::-webkit-scrollbar {
+          height: 4px;
         }
-        .modal-video {
-          background-color: transparent !important;
+        .overflow-x-auto::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 2px;
         }
-        .modal-video-movie-wrap {
-          border-radius: 12px !important;
-          overflow: hidden !important;
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+          background: rgba(59, 130, 246, 0.5);
+          border-radius: 2px;
         }
-        .modal-video-close-btn:before, 
-        .modal-video-close-btn:after {
-          display: none !important;
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(59, 130, 246, 0.7);
+        }
+        
+        /* Better touch experience on mobile */
+        @media (max-width: 640px) {
+          button, a {
+            touch-action: manipulation;
+          }
+        }
+        
+        /* Smooth scrolling for thumbnails on touch devices */
+        .overflow-x-auto {
+          -webkit-overflow-scrolling: touch;
         }
       `}</style>
     </>
   );
 };
 
-export default Video;
+export default ImageSlider;
