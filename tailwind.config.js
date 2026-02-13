@@ -14,24 +14,28 @@ module.exports = {
 
     screens: {
       xs: "450px",
-      // => @media (min-width: 450px) { ... }
-
       sm: "575px",
-      // => @media (min-width: 576px) { ... }
-
       md: "768px",
-      // => @media (min-width: 768px) { ... }
-
       lg: "992px",
-      // => @media (min-width: 992px) { ... }
-
       xl: "1200px",
-      // => @media (min-width: 1200px) { ... }
-
       "2xl": "1400px",
-      // => @media (min-width: 1400px) { ... }
     },
     extend: {
+      // BRAND SLIDER ANIMATIONS
+      animation: {
+        "scroll-left": "scroll-left 40s linear infinite",
+        "scroll-right": "scroll-right 40s linear infinite",
+      },
+      keyframes: {
+        "scroll-left": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "scroll-right": {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
       colors: {
         current: "currentColor",
         transparent: "transparent",
