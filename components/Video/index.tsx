@@ -2,14 +2,13 @@
 
 import { getImagePath } from "@/lib/utils";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Play, Pause } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const ImageSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
   const totalSlides = 11;
 
   // Next slide function
@@ -23,7 +22,7 @@ const ImageSlider = () => {
   }, [totalSlides]);
 
   // Go to specific slide
-  const goToSlide = useCallback((index: number) => {
+  const goToSlide = useCallback((index) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 5000);
@@ -58,7 +57,7 @@ const ImageSlider = () => {
 
   // Keyboard navigation
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isModalOpen) {
         closeModal();
       }
@@ -91,10 +90,10 @@ const ImageSlider = () => {
   }, [isModalOpen]);
 
   // Add click outside to close modal
-  const modalRef = useCallback((node: HTMLDivElement) => {
-    if (node && isModalOpen) {
-      const handleClickOutside = (e: MouseEvent) => {
-        if (node === e.target) {
+  useEffect(() => {
+    if (isModalOpen) {
+      const handleClickOutside = (e) => {
+        if (modalRef.current && modalRef.current === e.target) {
           closeModal();
         }
       };
@@ -159,16 +158,6 @@ const ImageSlider = () => {
                         
                         {/* Overlay Gradient */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-                        
-                        {/* Image Info
-                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white sm:p-6">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <h3 className="mb-1 text-lg font-bold sm:text-xl">Project #{index + 1}</h3>
-                              <p className="text-xs opacity-90 sm:text-sm">Success Story • Client Satisfaction</p>
-                            </div>
-                          </div>
-                        </div>*/}
                       </div>
                     ))}
                   </div>
@@ -182,7 +171,9 @@ const ImageSlider = () => {
                     className="group absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/80 active:scale-110 sm:left-3 sm:h-9 sm:w-9 md:left-4 md:h-10 md:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
                     aria-label="Previous slide"
                   >
-                    <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                    <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
                   </button>
                   
                   <button
@@ -193,7 +184,9 @@ const ImageSlider = () => {
                     className="group absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/80 active:scale-110 sm:right-3 sm:h-9 sm:w-9 md:right-4 md:h-10 md:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
                     aria-label="Next slide"
                   >
-                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                    <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </button>
 
                   {/* Slide Indicators */}
@@ -259,22 +252,6 @@ const ImageSlider = () => {
               </div>
             </div>
           </div>
-          
-          {/* CTA
-          <div className="mt-10 text-center">
-            <p className="mb-4 text-base text-body-color dark:text-gray-400">
-              Want to see more of our work or discuss your project?
-            </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-blue-700 active:scale-95 sm:px-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-              View Full Portfolio
-            </a>
-          </div>*/}
         </div>
 
         {/* Original Background */}
@@ -299,7 +276,9 @@ const ImageSlider = () => {
               className="absolute -top-8 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 md:-top-12 md:h-12 md:w-12 focus:outline-none focus:ring-2 focus:ring-white/50"
               aria-label="Close modal"
             >
-              <X className="h-5 w-5 md:h-6 md:w-6" />
+              <svg className="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
 
             {/* Modal Navigation Arrows */}
@@ -308,7 +287,9 @@ const ImageSlider = () => {
               className="absolute left-1 top-1/2 z-50 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 sm:left-2 sm:h-10 sm:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </button>
             
             <button
@@ -316,7 +297,9 @@ const ImageSlider = () => {
               className="absolute right-1 top-1/2 z-50 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-lg transition-all duration-300 hover:bg-white/20 active:scale-95 sm:right-2 sm:h-10 sm:w-10 focus:outline-none focus:ring-2 focus:ring-white/50"
               aria-label="Next slide"
             >
-              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+              <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
 
             {/* Main Modal Content */}
@@ -336,14 +319,6 @@ const ImageSlider = () => {
                     priority
                     sizes="100vw"
                   />
-                  
-                  {/* Image Info Overlay
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 text-white sm:p-6">
-                    <div>
-                      <h3 className="mb-1 text-lg font-bold sm:text-xl">Project #{index + 1}</h3>
-                      <p className="text-xs opacity-90 sm:text-sm">Success Story • Client Satisfaction</p>
-                    </div>
-                  </div>*/}
                 </div>
               ))}
             </div>
