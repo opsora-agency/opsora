@@ -1349,3 +1349,465 @@
     width: 100%;
   }
 }
+
+
+
+
+
+
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+/* ========== MOBILE OPTIMIZATION ========== */
+@media (max-width: 640px) {
+  /* Bookmark Button */
+  .chatbot-bookmark {
+    width: 42px;
+    height: 42px;
+    top: 75vh;
+    right: 0;
+  }
+  
+  .chatbot-bookmark:hover {
+    width: 44px;
+    height: 44px;
+    right: 1px;
+  }
+  
+  .bookmark-logo-container {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .keyboard-hint {
+    display: none; /* Hide keyboard hints on mobile */
+  }
+
+  /* Sidebar */
+  .chatbot-sidebar {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .sidebar-header {
+    padding: 10px 12px;
+    height: 52px;
+  }
+  
+  .header-left {
+    left: 12px;
+  }
+  
+  .header-right {
+    right: 12px;
+  }
+  
+  .logo-img {
+    height: 24px;
+  }
+  
+  .action-btn,
+  .close-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Messages */
+  .sidebar-messages {
+    padding: 12px;
+  }
+  
+  .message-bubble {
+    max-width: 85%;
+    font-size: 14px; /* Slightly larger for better readability */
+    padding: 10px 14px;
+  }
+  
+  .ai-logo {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .chatbot-logo-light,
+  .chatbot-logo-dark {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Input Area */
+  .sidebar-input {
+    padding: 10px 12px;
+  }
+  
+  .input-wrapper textarea {
+    font-size: 14px; /* Prevent zoom on focus in iOS */
+    padding: 10px 12px;
+    min-height: 44px; /* Better touch target */
+  }
+  
+  .send-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Booking Form Mobile */
+  .booking-step {
+    padding: 12px;
+  }
+  
+  .booking-form-header h4 {
+    font-size: 15px;
+  }
+  
+  .service-option {
+    padding: 12px;
+  }
+  
+  .service-icon {
+    font-size: 18px;
+  }
+  
+  .service-name {
+    font-size: 14px;
+  }
+  
+  .service-desc {
+    font-size: 12px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px; /* Prevent zoom on focus in iOS */
+    padding: 10px 12px;
+    min-height: 44px; /* Better touch target */
+  }
+  
+  .form-group textarea {
+    min-height: 80px;
+  }
+  
+  .date-options,
+  .time-options {
+    gap: 6px;
+  }
+  
+  .date-option,
+  .time-option {
+    padding: 10px 12px;
+    font-size: 13px;
+    flex: 1 1 auto;
+    min-width: 70px;
+    text-align: center;
+  }
+  
+  .time-selection-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .selected-time-display {
+    padding: 10px;
+  }
+  
+  .booking-summary {
+    padding: 12px;
+  }
+  
+  .summary-section {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+  
+  .confirmation-note {
+    padding: 10px;
+  }
+  
+  .booking-form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .cancel-btn,
+  .continue-btn,
+  .confirm-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    min-height: 44px; /* Better touch target */
+    justify-content: center;
+  }
+  
+  .booking-status {
+    padding: 10px 12px;
+  }
+  
+  .status-text {
+    font-size: 13px;
+  }
+}
+
+/* Small phones (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .chatbot-bookmark {
+    width: 38px;
+    height: 38px;
+    top: 80vh;
+  }
+  
+  .chatbot-bookmark:hover {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .bookmark-logo-container {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .message-bubble {
+    max-width: 90%;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  .date-option,
+  .time-option {
+    flex: 1 1 calc(50% - 3px);
+    min-width: auto;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Landscape orientation */
+@media (max-height: 480px) and (orientation: landscape) {
+  .chatbot-sidebar {
+    width: 100%;
+  }
+  
+  .sidebar-header {
+    height: 48px;
+    padding: 8px 12px;
+  }
+  
+  .sidebar-messages {
+    padding: 10px;
+    max-height: calc(100vh - 120px);
+  }
+  
+  .message-bubble {
+    max-width: 70%;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .ai-logo {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .sidebar-input {
+    padding: 8px 12px;
+  }
+  
+  .input-wrapper textarea {
+    min-height: 36px;
+    max-height: 60px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .send-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .booking-step {
+    padding: 10px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .service-option {
+    padding: 8px 10px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+  
+  .booking-form-actions {
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+    padding-top: 8px;
+  }
+  
+  .cancel-btn,
+  .continue-btn,
+  .confirm-btn {
+    padding: 8px 12px;
+    min-height: 36px;
+    font-size: 12px;
+  }
+}
+
+/* ========== BROWSER COMPATIBILITY ========== */
+/* Safari/iOS fixes */
+@supports (-webkit-touch-callout: none) {
+  .chatbot-sidebar {
+    height: -webkit-fill-available;
+  }
+  
+  .sidebar-messages {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .input-wrapper textarea {
+    font-size: 16px; /* Prevents zoom on focus in iOS */
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px; /* Prevents zoom on focus in iOS */
+  }
+}
+
+/* Firefox scrollbar */
+.sidebar-messages {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.dark .sidebar-messages {
+  scrollbar-color: #4b5563 #1f2937;
+}
+
+/* Edge/IE scrollbar */
+.sidebar-messages::-ms-scrollbar {
+  width: 4px;
+}
+
+.sidebar-messages::-ms-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dark .sidebar-messages::-ms-scrollbar-track {
+  background: #1f2937;
+}
+
+.sidebar-messages::-ms-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+.dark .sidebar-messages::-ms-scrollbar-thumb {
+  background: #4b5563;
+}
+
+/* Remove tap highlight on mobile */
+.chatbot-bookmark,
+.action-btn,
+.close-btn,
+.send-btn,
+.service-option,
+.date-option,
+.time-option,
+.cancel-btn,
+.continue-btn,
+.confirm-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better touch targets */
+@media (max-width: 640px) {
+  .action-btn,
+  .close-btn,
+  .send-btn,
+  .date-option,
+  .time-option,
+  .cancel-btn,
+  .continue-btn,
+  .confirm-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Smooth scrolling */
+.sidebar-messages {
+  scroll-behavior: smooth;
+}
+
+/* Backdrop filter fallback */
+.sidebar-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+@supports (backdrop-filter: blur(4px)) {
+  .sidebar-overlay {
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Prevent double tap zoom on buttons */
+@media (max-width: 640px) {
+  .chatbot-bookmark,
+  .action-btn,
+  .close-btn,
+  .send-btn,
+  .service-option,
+  .date-option,
+  .time-option,
+  .cancel-btn,
+  .continue-btn,
+  .confirm-btn {
+    touch-action: manipulation;
+  }
+}
+
+/* Ensure proper box sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* Fix for 100vh on mobile */
+.chatbot-sidebar {
+  height: 100vh; /* Fallback */
+  height: -webkit-fill-available;
+  height: stretch;
+}
+
+/* Fix for notch phones */
+@supports (padding: max(0px)) {
+  .chatbot-sidebar {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .sidebar-header {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  .sidebar-input {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  
+  .chatbot-bookmark {
+    margin-right: env(safe-area-inset-right);
+  }
+}
